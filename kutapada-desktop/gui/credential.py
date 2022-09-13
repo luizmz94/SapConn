@@ -1,23 +1,18 @@
 """ Module for credential based GUI elements """
+
 import pyperclip
 from PyQt5.Qt import QHBoxLayout, QVBoxLayout
 from PyQt5.QtWidgets import QMessageBox, QPlainTextEdit, QPushButton
+from incubus import IncubusFactory
 from data.database import Account, System
 from gui.toolkit import WidgetState
-from config.config import ConfigFactory
 
 
 class CredentialWidget: # pylint: disable=R0902
     """ Main class """
     def __init__(self, state: WidgetState):
-        conf = ConfigFactory.get_instance()
-
         self._state = state
-
         self._credential = QPlainTextEdit(self._state.main_widget)
-        cred_style = "QPlainTextEdit { font-size: " + str(conf.font_size) + "pt; }"
-        self._credential.setStyleSheet(cred_style)
-
         self._selected_account = Account()
         self._selected_system = System()
         self._internal_value = ""
@@ -40,6 +35,7 @@ class CredentialWidget: # pylint: disable=R0902
         credential_layout.addLayout(button_layout)
 
         self._state.main_layout.addLayout(credential_layout)
+        self._incubus = IncubusFactory.get_instance()
 
     @property
     def masked(self) -> bool:
@@ -86,6 +82,7 @@ class CredentialWidget: # pylint: disable=R0902
         self._build_displayed_value()
 
     def _copy_clicked(self):
+        self._incubus.user_event()
         pyperclip.copy(self.value)
 
     def _build_displayed_value(self):
@@ -98,6 +95,7 @@ class CredentialWidget: # pylint: disable=R0902
         self._credential.setPlainText(self._displayed_value)
 
     def _credential_save_clicked(self):
+        self._incubus.user_event()
         if self.masked:
             QMessageBox(QMessageBox.Critical, "Error", "Unmask before saving").exec_()
             return
@@ -109,6 +107,7 @@ class CredentialWidget: # pylint: disable=R0902
         self.value = self._selected_account.credential
 
     def _toggle_clicked(self):
+        self._incubus.user_event()
         if self._masked:
             self.masked = False
         else:

@@ -1,0 +1,5 @@
+__version__ = "0.0.1"
+AUTHOR = "Kerem Koseoglu"
+EMAIL = "kerem@keremkoseoglu.com"
+DESCRIPTION = "Encryption toolkit"
+PYTHON_VERSION = ">=3.6.5"

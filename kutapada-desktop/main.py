@@ -1,15 +1,15 @@
 """Main entry point"""
+import cgitb 
+
 import os
 from PyQt5.Qt import QApplication
 import qdarkstyle
 from gui.prime import Prime
 
-def run_app():
-    """ Runs the application """
-    app = QApplication([])
-    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
-    _ = Prime()
-    os._exit(app.exec_()) # pylint: disable=W0212
+desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+cgitb.enable(format = 'text', logdir = desktop)
 
-if __name__ == "__main__":
-    run_app()
+APP = QApplication([])
+APP.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+P = Prime()
+os._exit(APP.exec_()) # pylint: disable=W0212

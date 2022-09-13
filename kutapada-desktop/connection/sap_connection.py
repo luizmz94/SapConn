@@ -3,16 +3,21 @@ import os
 from os import path
 import time
 from threading import Thread
-from connection import ConnectionType
+from connection.abstract_connection_type import AbstractConnectionType
 
 
-class SapConnection(ConnectionType):
+class SapConnection(AbstractConnectionType):
     """ SAP connection class """
+
     KEY_CONN = "conn"
     KEY_CLNT = "clnt"
     KEY_USER = "user"
     KEY_LANG = "lang"
     FILE_NAME = "login.sapc"
+
+    open_thread = ''
+    desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+    file_path = path.join(desktop, FILE_NAME)
 
     @property
     def args_template(self) -> dict:
@@ -24,25 +29,29 @@ class SapConnection(ConnectionType):
             SapConnection.KEY_LANG: "",
         }
 
-    def connect(self, args: dict, credential: str):
+    def connect(self, args: dict, credential: str, account: str):
         """ Opens a connection to the system """
         file_content = "conn=" + args[SapConnection.KEY_CONN]
         file_content += "&clnt=" + args[SapConnection.KEY_CLNT]
-        file_content += "&user=" + args[SapConnection.KEY_USER]
+        file_content += "&user=" + account
+        #file_content += "&user=" + args[SapConnection.KEY_USER]
         file_content += "&lang=" + args[SapConnection.KEY_LANG]
         file_content += "&expert=true&pass=" + credential
 
-        file_path = path.join(os.getcwd(), SapConnection.FILE_NAME)
-        with open(file_path, "w", encoding="utf-8") as tmp_file:
-            tmp_file.write(file_content)
+        
+        #file_path = '/Users/luizcarloszanellamartins/Documents/SAPConn/kutapada-desktop/login.sapc'
+        #file_path = path.join(os.getcwd(), SapConnection.FILE_NAME)
+        with open(SapConnection.file_path, "w") as tmp_file:
+           tmp_file.write(file_content)
 
-        open_thread = Thread(target=self._open_connection_file)
-        open_thread.start()
+        SapConnection.open_thread = Thread(target=self._open_connection_file)
+        SapConnection.open_thread.start()
 
     def _open_connection_file(self):
-        file_path = path.join(os.getcwd(), SapConnection.FILE_NAME)
+        #file_path = path.join(os.getcwd(), SapConnection.FILE_NAME)
+        #file_path = '/Users/luizcarloszanellamartins/Documents/SAPConn/kutapada-desktop/login.sapc'
         try:
-            os.system(f"open {file_path}")
+            os.system("open " + SapConnection.file_path)
             time.sleep(10)
         finally:
-            os.remove(file_path)
+            os.remove(SapConnection.file_path)
