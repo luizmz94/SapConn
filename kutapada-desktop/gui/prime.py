@@ -50,4 +50,6 @@ class Prime(QWidget):
         conn_dict = json.loads(conn_text)
         credential = self._credential_widget.value
         account = self._credential_widget.selected_account.name
-        SapConnection().connect(conn_dict, credential, account)
+
+        if account != '':
+            SapConnection().connect(conn_dict, credential, account)

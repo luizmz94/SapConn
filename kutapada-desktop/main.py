@@ -13,3 +13,4 @@ APP = QApplication([])
 APP.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
 P = Prime()
 os._exit(APP.exec_()) # pylint: disable=W0212
+cle
