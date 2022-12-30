@@ -14,3 +14,11 @@ Kutapada is a lightweight password keeper. Your passwords are kept in a local JS
 
 ## Warnings
 The encryption within the JSON file is not very strong. If you fork this repository, you might want to improve data/encryption.py .
+
+
+
+
+Executar no terminal, com o ambiente virtual em execução: pip install -r requirements.txt
+
+
+para gerar o arquivo executavel .app, executar o comando: pyinstaller SAPconn.spec
