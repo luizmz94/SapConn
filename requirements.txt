@@ -2,11 +2,18 @@ altgraph==0.17.3
 incubus-keremkoseoglu==0.0.4
 macholib==1.16.2
 packaging==22.0
+
+# PyInstaller compatível com 3.11
 pyinstaller==5.7.0
 pyinstaller-hooks-contrib==2022.14
+
 pyperclip==1.8.2
-PyQt5==5.15.7
-PyQt5-Qt5==5.15.2
-PyQt5-sip==12.11.0
+
+# PyQt5 com wheels mais novas (tem binário pra cp311/macOS)
+PyQt5==5.15.11
+# Remova estes pins (deixe o PyQt5 resolver):
+# PyQt5-Qt5==5.15.2
+# PyQt5-sip==12.11.0
+
 QDarkStyle==3.1
 QtPy==2.3.0
