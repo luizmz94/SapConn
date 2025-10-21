@@ -25,11 +25,11 @@ class Prime(QWidget):
         self._account_widget = AccountWidget(self._widget_state, self._account_selected)
         self._credential_widget = CredentialWidget(self._widget_state)
         self.setLayout(self._widget_state.main_layout)
-        self.setWindowTitle("SAP Connections")
+        self.setWindowTitle("Redware - SAP Connections")
         self._system_widget.focus_on_locate()
 
         self._incubus = IncubusFactory.get_instance()
-        self._incubus.start(5)
+        self._incubus.start(120)
 
         self.show()
 
